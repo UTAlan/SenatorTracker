@@ -12,10 +12,10 @@ var parties  = require('./routes/parties');
 var states   = require('./routes/states');
 var senators = require('./routes/senators');
 
-var settings = require('./local_settings');
+var db_pass  = process.env.db_pass || '';
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://abeam:' + settings.db_pass + '$@ds049661.mongolab.com:49661/mean_politics', function(err) {
+mongoose.connect('mongodb://abeam:' + db_pass + '$@ds049661.mongolab.com:49661/mean_politics', function(err) {
     if(err) {
         console.log('connection error', err);
     } else {
