@@ -28,6 +28,9 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#">Home</a></li>
                         <li><a href="#Senators">Senators</a></li>
+                        <li data-ng-hide="token"><a href="#/signin">Sign In</a></li>
+                        <li data-ng-hide="token"><a href="#/signup">Register</a></li>
+                        <li data-ng-show="token"><a ng-click="logout()">Logout</a></li>
                     </ul>
                 </div> <!-- </div class="header"> -->
             </div> <!-- </div class="container"> -->
@@ -42,6 +45,9 @@
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-route.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular-resource.min.js"></script>
+        <script src="javascripts/services.js"></script>
+        <script src="javascripts/controllers.js"></script>
+        <script src="javascripts/routes.js"></script>
 
         <!-- Template -->
         <script type="text/ng-template" id="/index.html">
@@ -100,109 +106,6 @@
         <script type="text/ng-template" id="/senatorDetails.html">
         <h1>{{ senator.name.first }} {{ senator.name.last }}</h1>
         active: <input type="checkbox" ng-model="senator.active">
-        </script>
-
-        <script>
-        angular.module('app', ['ngRoute', 'ngResource'])
-
-        //---------------
-        // Services
-        //---------------
-        .factory('Senators', function($http) {
-            return $http.get('/api/senators');
-        })
-        .factory('Parties', function($http) {
-            return $http.get('/api/parties');
-        })
-        .factory('States', function($http) {
-            return $http.get('/api/states');
-        })
-        .factory('SenatorInfo', function(Senators, Parties, States) {
-            return [Senators, Parties, States];
-        })
-
-        //---------------
-        // Controllers
-        //---------------
-
-        .controller('BaseController', ['$scope', 'SenatorInfo', function ($scope, SenatorInfo) {
-            
-        }])
-
-        .controller('SenatorController', ['$scope', 'SenatorInfo', function ($scope, SenatorInfo) {
-            var Senators = SenatorInfo[0];
-            var Parties = SenatorInfo[1];
-            var States = SenatorInfo[2];
-
-            Senators.success(function(data) {
-                $scope.senators = data;
-            }).error(function(data, status) {
-                console.log(data, status);
-                $scope.senators = [];
-            });
-
-            $scope.selectedParty = null;
-
-            Parties.success(function(data) {
-                $scope.parties = data;
-            }).error(function(data, status) {
-                console.log(data, status);
-                $scope.parties = [];
-            });
-
-            $scope.selectedState = null;
-
-            States.success(function(data) {
-                $scope.states = data;
-            }).error(function(data, status) {
-                console.log(data, status);
-                $scope.states = [];
-            });
-
-            $scope.save = function(){
-                if($scope.newSenator && $scope.newSenator.length >= 1) {
-                    var senator = new Senators({ name: { first: $scope.newSenator.firstName, last: $scope.newSenator.lastName } });
-
-                    senator.$save(function(){
-                        $scope.senators.push(senator);
-                        $scope.newSenator = '';
-                    });
-                } /*else if($scope.newState && $scope.newState.length >= 1) {
-                    var state = new State({ name: $scope.newState.name });
-
-                    state.$save(function(){
-                        $scope.state.push(state);
-                        $scope.newState = '';
-                    });
-                }*/
-            }
-        }])
-
-        .controller('SenatorDetailCtrl', ['$scope', '$routeParams', 'Senators', function ($scope, $routeParams, Senators) {
-            $scope.senators = Senators[$routeParams.id];
-        }])
-
-        //---------------
-        // Routes
-        //---------------
-
-        .config(['$routeProvider', function ($routeProvider) {
-            $routeProvider
-                .when('/', {
-                    templateUrl: '/index.html',
-                    controller: 'BaseController'
-                })
-
-                .when('/Senators', {
-                    templateUrl: '/senators.html',
-                    controller: 'SenatorController'
-                })
-
-                .when('/Senators/:id', {
-                    templateUrl: '/senatorDetails.html',
-                    controller: 'SenatorDetailCtrl'
-                });
-        }]);
         </script>
     </body>
 </html>
