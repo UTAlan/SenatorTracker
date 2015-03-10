@@ -1,0 +1,90 @@
+<div class="container">
+    <div class="row jumbotron">
+        <div class="col-xs-12 col-sm-9">
+            <h2>Active Legislation</h2>
+
+            <div class="row" id="active_leg_header">
+                <div class="col-xs-8">
+                    <input type="text" ng-model="search.abbr" placeholder="Search by Abbr" />
+                    <input type="text" ng-model="search.name" placeholder="Search by Name" />
+                </div>
+                <div class="col-xs-4" id="active_leg_filter">
+                    <!-- Show: All &middot; <a href="#">Subscribed</a> -->
+                </div>
+            </div>
+
+            <div ng-repeat="(key, legislation) in legislations | filter: search" class="row">
+                <div class="col-xs-1">
+                    <p class="active_leg_index">{{ key + 1 }}</p>
+                </div>
+                <div class="col-xs-8">
+                    <p class="active_leg_main">
+                        <strong><a href="#legislations/{{ legislation._id }}">{{ legislation.abbr }}
+                        -
+                        {{ legislation.name }}</a></strong>
+                    </p>
+                    <p class="active_leg_meta">
+                        <a href="#legislations/{{ legislation._id }}">999 Comments</a>
+                        &middot;
+                        <strong>Votes:</strong>
+                        Yea - x, Nay - y, No Vote - z
+                    </p>
+                </div>
+                <div class="col-xs-3">
+                    <p class="active_leg_status">[{{ legislation.status }}]</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-3" ng-if="isAuthenticated()">
+            <h3>User Panel</h3>
+        </div>
+
+        <div class="col-xs-12 col-sm-3" ng-if="!isAuthenticated()">
+            <h3>User Login</h3>
+
+            <form class="form-horizontal" role="form" action="/Login" method="POST">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-default">Log In</button>
+                </div>
+            </div>
+            </form>
+
+            <h3>User Registration</h3>
+
+            <form class="form-horizontal" role="form" action="/Register" method="POST">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Email" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-default">Register</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

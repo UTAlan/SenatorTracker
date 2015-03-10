@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="row jumbotron">
+        <div class="xs-col-12">
+            <h3>{{ legislation.name }}</h3>
+            <h4>{{ legislation.title }}</h4>
+            <p><em>{{ legislation.status }}</em></p>
+
+            <p style="white-space: pre-line;">{{ legislation.description }}</p>
+
+            <h4>Votes</h4>
+            <div ng-repeat="(key, vote) in votes">
+                <p>{{ senators[key].name.first }} {{ senators[key].name.last }} ({{ senators[key].party }} - {{ senators[key].state }}): {{ vote.value }}</p>
+            </div>
+        </div>
+    </div>
+</div>

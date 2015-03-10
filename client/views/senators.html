@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="row jumbotron">
+        <div class="col-xs-12">
+            Search: <input type="text" ng-model="search.name"><br /><br />
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Party</th>
+                        <th>State</th>
+                        <th>Senior</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="senator in senators | filter: search">
+                        <td>{{ senator.name.first }} {{ senator.name.last }}</td>
+                        <td>{{ senator.party }}</td>
+                        <td>{{ senator.state }}</td>
+                        <td><input disabled="disabled" type="checkbox" ng-model="senator.senior"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
